@@ -134,29 +134,31 @@ const App = () => {
           {result && (
             <>
               <div className="relative w-full h-64 bg-gray-100 rounded-lg overflow-hidden mb-6">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-full h-full border-2 border-gray-300">
-                    {['Potential, Needs Work', 'Strong Match', 'Low Priority', 'Good Fit, Limited Funds'].map((label, index) => (
-                      <div key={index} className={`absolute ${index % 2 === 0 ? 'left-0' : 'right-0'} ${index < 2 ? 'top-0' : 'bottom-0'} w-1/2 h-1/2 border-gray-300 flex items-center justify-center ${index !== 3 ? 'border-r border-b' : ''}`}>
-                        <span className="text-xs font-semibold text-gray-600 text-center p-2">{label}</span>
-                      </div>
-                    ))}
-                  </div>
+                <div className="absolute inset-0 grid grid-cols-2 grid-rows-2 gap-1 p-1">
+                  {['Potential, Needs Work', 'Strong Match', 'Low Priority', 'Good Fit, Limited Funds'].map((label, index) => (
+                    <div 
+                      key={index} 
+                      className={`flex items-center justify-center p-2 ${
+                        result.quadrant === label 
+                          ? 'bg-blue-200 border-2 border-blue-500' 
+                          : 'bg-gray-200'
+                      }`}
+                    >
+                      <span className="text-xs font-semibold text-gray-800 text-center">{label}</span>
+                    </div>
+                  ))}
                 </div>
-                <div
-                  className="absolute w-10 h-10 rounded-full shadow-lg flex items-center justify-center text-white font-bold transition-all duration-500 ease-in-out"
-                  style={{
-                    backgroundColor: result.color,
-                    left: `${result.position.x}%`,
-                    top: `${result.position.y}%`,
-                    transform: 'translate(-50%, -50%) scale(1.2)',
-                  }}
-                >
-                  {result.score}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div 
+                    className="w-20 h-20 rounded-full shadow-lg flex items-center justify-center text-white font-bold text-2xl"
+                    style={{ backgroundColor: result.color }}
+                  >
+                    {result.score}
+                  </div>
                 </div>
               </div>
               <div className="bg-gray-100 p-6 rounded-lg mb-6">
-                <h3 className="font-bold text-xl mb-2" style={{ color: result.color }}>{result.quadrant}</h3>
+                <h3 className="font-bold text-2xl mb-2" style={{ color: result.color }}>{result.quadrant}</h3>
                 <p className="text-gray-600">{result.explanation}</p>
               </div>
               <div className="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-6" role="alert">
